@@ -15,8 +15,28 @@ const [notes, setNotes] = useState([
         },
     ])
     const [searchQuery, setSearchQuery] = useState('')
-    const [title, setTitle] = useState('')
-    const [body, setBody] = useState('')
+    const [form, setForm] = useState({ title: '', body: '' })
+
+    function handleChange(e) {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        if (!form.title.trim() && !form.body.trim()) return
+
+        const newNote = {
+            id: crypto.randomUUID(),
+            title: form.title,
+            body: form.body,
+        }
+
+        setNotes([newNote, ...notes])
+        setForm({ title: '', body: '' })
+    }
 
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
@@ -33,15 +53,19 @@ const [notes, setNotes] = useState([
           />
         </div>
 
-        <form className="grid gap-3">
+        <form onSubmit={handleSubmit} className="grid gap-3">
           <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
           <input
             name="title"
+            value={form.title}
+            onChange={handleChange}
             placeholder="Title"
             className="h-[52px] w-full border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
           />
           <textarea
             name="body"
+            value={form.body}
+            onChange={handleChange}
             placeholder="Write your note"
             className="h-[120px] w-full resize-none py-3 border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
           />
