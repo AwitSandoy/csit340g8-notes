@@ -2,7 +2,7 @@ import NoteCard from './NoteCard.jsx'
 import { useState } from 'react'
 
 function Notes() {
-const [notes, setNotes] = useState([
+    const [notes, setNotes] = useState([
         {
             id: crypto.randomUUID(),
             title: 'Review map and filter',
@@ -26,15 +26,17 @@ const [notes, setNotes] = useState([
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (!form.title.trim() && !form.body.trim()) return
+        const title = form.title.trim()
+        const body = form.body.trim()
+        if (!title || !body) return
 
         const newNote = {
             id: crypto.randomUUID(),
-            title: form.title,
-            body: form.body,
+            title,
+            body,
         }
 
-        setNotes([newNote, ...notes])
+        setNotes([...notes, newNote])
         setForm({ title: '', body: '' })
     }
 
