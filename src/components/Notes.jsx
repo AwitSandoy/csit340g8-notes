@@ -1,5 +1,5 @@
 import NoteCard from './NoteCard.jsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Notes() {
     const [notes, setNotes] = useState([
@@ -14,8 +14,14 @@ function Notes() {
             body: 'Practice writing one handler for many inputs.',
         },
     ])
-    const [searchQuery, setSearchQuery] = useState('')
+    
+    
     const [form, setForm] = useState({ title: '', body: '' })
+    const [searchQuery, setSearchQuery] = useState('')
+    
+    useEffect(() => {
+      localStorage.setItem('notes', JSON.stringify(notes))
+    }, [notes])
 
     function handleChange(e) {
         setForm({
