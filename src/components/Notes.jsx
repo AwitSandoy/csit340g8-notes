@@ -1,21 +1,25 @@
 import NoteCard from './NoteCard.jsx'
 import { useState, useEffect } from 'react'
 
+const startingNotes = [
+    {
+        id: crypto.randomUUID(),
+        title: 'Review map and filter',
+        body: 'Redo the TodoMVC steps without looking at the guide.',
+    },
+    {
+        id: crypto.randomUUID(),
+        title: 'Prepare for the quiz',
+        body: 'Practice writing one handler for many inputs.',
+    },
+  ]
+
 function Notes() {
-    const [notes, setNotes] = useState([
-        {
-            id: crypto.randomUUID(),
-            title: 'Review map and filter',
-            body: 'Redo the TodoMVC steps without looking at the guide.',
-        },
-        {
-            id: crypto.randomUUID(),
-            title: 'Prepare for the quiz',
-            body: 'Practice writing one handler for many inputs.',
-        },
-    ])
-    
-    
+    const [notes, setNotes] = useState(() => {
+      const saved = localStorage.getItem('notes')
+      return saved ? JSON.parse(saved) : startingNotes
+    })
+
     const [form, setForm] = useState({ title: '', body: '' })
     const [searchQuery, setSearchQuery] = useState('')
     
